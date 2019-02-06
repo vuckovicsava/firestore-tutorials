@@ -27,7 +27,19 @@ signupForm.addEventListener('submit', e => {
   auth.createUserWithEmailAndPassword(email, password)
     .then(cred => {
       console.log(cred);
-    })
 
-  
+      const modal = document.querySelector('#modal-signup');
+      M.Modal.getInstance(modal).close();
+      signupForm.reset();
+    });
+});
+
+// logout
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', e => {
+  e.preventDefault();
+
+  // firebase signout
+  auth.signOut()
+    .then(() => console.log('User logged out'));
 });
