@@ -31,12 +31,13 @@ function renderCafe(doc) {
 }
 
 // getting data
-db.collection('cafes')
-  .get()
-  .then(snapshot => {
-    snapshot.docs.forEach(doc => renderCafe(doc));
-  })
-  .catch(err => console.log(err));
+// db.collection('cafes')
+//   .orderBy('name')
+//   .get()
+//   .then(snapshot => {
+//     snapshot.docs.forEach(doc => renderCafe(doc));
+//   })
+//   .catch(err => console.log(err));
 
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -50,3 +51,18 @@ form.addEventListener('submit', e => {
   form.name.value = '';
   form.city.value = '';
 });
+
+// getting data real-time
+db.collection('cafes')
+  .orderBy('city')
+  .onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+      if (change.type === 'added') {
+        renderCafe(change.doc);
+      } else if (change.type === 'removed') {
+        let li = cafeList.querySelector(`[data-id=${change.doc.id}]`);
+        cafeList.removeChild(li);
+      }
+    })
+  })
