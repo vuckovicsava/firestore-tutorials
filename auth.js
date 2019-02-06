@@ -8,3 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
   M.Collapsible.init(items);
 
 });
+
+// initialize auth service
+const auth = firebase.auth();
+
+// initialize firestore database service
+const db = firebase.firestore();
