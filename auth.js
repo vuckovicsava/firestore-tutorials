@@ -43,3 +43,20 @@ logout.addEventListener('click', e => {
   auth.signOut()
     .then(() => console.log('User logged out'));
 });
+
+// login
+const loginForm = document.querySelector('#login-form');
+loginForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const email = loginForm['login-email'].value;
+  const password = loginForm['login-password'].value;
+
+  // firebase login
+  auth.signInWithEmailAndPassword(email, password)
+    .then(cred => console.log(`User ${cred.user} logged in with a token: ${cred}`));
+
+  const modal = document.querySelector('#modal-login');
+  M.Modal.getInstance(modal).close();
+  loginForm.reset();
+});
